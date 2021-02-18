@@ -147,7 +147,7 @@ public class HeadMarkerModuleManipulator extends PepperManipulatorImpl {
                                 }
                                 if (! found){
                                     if (true){
-                                        throw new PepperModuleDataException(this, "no layer - " + layers.toString());
+                                        //throw new PepperModuleDataException(this, "no layer - " + layers.toString());
                                     }
                                     continue;
                                 }
@@ -176,7 +176,7 @@ public class HeadMarkerModuleManipulator extends PepperManipulatorImpl {
                                 List<SPointingRelation> pRels = new ArrayList<>();
                                 for (SRelation rel: rels){
                                     if (rel instanceof SPointingRelation){
-                                        if (edgeTypeMatch(rel,edgeType,edgeAnnotation,ignoreEdgeAnnotation)){
+                                        if (edgeTypeMatch(rel,edgeType,edgeAnnotation,"")){
                                             pRels.add((SPointingRelation) rel);
                                         }
                                     }                                
@@ -192,11 +192,15 @@ public class HeadMarkerModuleManipulator extends PepperManipulatorImpl {
                                         if (source instanceof SToken){  // Check that this can be a token with a dependency annotation
                                             if (comparator.compare((SToken) source, endToken) > 0){
                                                 // source is greater than end token, this is potentially the head
-                                                found = true;                                                    
+                                                if (edgeTypeMatch(rel,edgeType,edgeAnnotation,ignoreEdgeAnnotation)){
+                                                    found = true;                                                    
+                                                }
                                             }
                                             else if (comparator.compare((SToken) source, startToken) < 0){
                                                 // source is less than start token, this is potentially the head
-                                                found = true;                                                    
+                                                if (edgeTypeMatch(rel,edgeType,edgeAnnotation,ignoreEdgeAnnotation)){
+                                                    found = true;                                                    
+                                                }
                                             }
                                             if (found){
                                                 addRel(span,(SToken) token,getDocument().getDocumentGraph(),headRelType,headRelLayer,useDominanceRelations);
